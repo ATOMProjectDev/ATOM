@@ -1,0 +1,59 @@
+// Copyright 2018 Ministry of Power, Works and Housing. Powered by 
+// Nigerian Communications Satellite (NigComSat) Ltd.
+//
+// Licensed under the Atom License, Version 1.0 (the "License");
+// you may not use this file except in compliance with the Atom License.
+
+syntax = "proto3";
+import "google/protobuf/timestamp.proto";
+
+package atom;
+
+// functions implemented and exposed by all toll operators consumed by DASH
+service TollService {
+  // get real-time data; process incoming one at a time
+  rpc GetLiveStream (Empty) returns (stream VehicleInfo) {}
+  // function implemented and exposed by the toll operators and CR-Chips
+  rpc GetDailyLiveCount (Empty) returns (stream VehicleCount) {}
+  // get historical data
+  rpc GetVehicleCount (SearchRange) returns (VehicleCount) {} 
+  rpc GetVehicleCountSummary (SearchRange) returns (VehicleInfo) {} 
+}
+
+enum VehicleClass {
+  MOTORBIKE = 0;
+  SALON = 1;
+  SUV = 2;
+  BUS = 3;
+  OTHERS = 4;
+}
+message UID {
+  // uniquely identifies a vehicle
+  string uid = 1;
+}
+message Vehicle {
+  UID transponderID = 1;
+  VehicleClass vehicleClass = 2;
+  string licensePlateNumber = 3;
+}
+message TollFare {
+  double tollFare = 1;
+}
+message TollVehicleInfo { 
+  Vehicle vehicle = 1;
+  google.protobuf.Timestamp timestamp = 2;
+  TollFare tollFare = 3;
+}
+message VehicleCount {
+  int32 count = 1;
+}
+message SearchRange {
+  date startDate = 1;
+  date endDate = 2;
+}
+message date {
+  // number of ticks that represents date and time
+  int64 nanosecs = 1;
+}
+message Empty {
+}
