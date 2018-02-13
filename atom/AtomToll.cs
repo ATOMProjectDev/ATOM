@@ -22,30 +22,40 @@ namespace Atom {
     static AtomTollReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "ChRhdG9tL2F0b21fdG9sbC5wcm90bxIEYXRvbSISCgNVSUQSCwoDdWlkGAEg",
-            "ASgJInEKB1ZlaGljbGUSIAoNdHJhbnNwb25kZXJJRBgBIAEoCzIJLmF0b20u",
-            "VUlEEigKDHZlaGljbGVDbGFzcxgCIAEoDjISLmF0b20uVmVoaWNsZUNsYXNz",
-            "EhoKEmxpY2Vuc2VQbGF0ZU51bWJlchgDIAEoCSJMCgtWZWhpY2xlSW5mbxIe",
-            "Cgd2ZWhpY2xlGAEgASgLMg0uYXRvbS5WZWhpY2xlEh0KCXRpbWVzdGFtcBgC",
-            "IAEoCzIKLmF0b20uZGF0ZSIdCgxWZWhpY2xlQ291bnQSDQoFY291bnQYASAB",
-            "KAUiRwoJVGltZVJhbmdlEh0KCXN0YXJ0RGF0ZRgBIAEoCzIKLmF0b20uZGF0",
-            "ZRIbCgdlbmREYXRlGAIgASgLMgouYXRvbS5kYXRlIhgKBGRhdGUSEAoIbmFu",
-            "b3NlY3MYASABKAMiBwoFRW1wdHkqRgoMVmVoaWNsZUNsYXNzEg0KCU1PVE9S",
-            "QklLRRAAEgkKBVNBTE9OEAESBwoDU1VWEAISBwoDQlVTEAMSCgoGT1RIRVJT",
-            "EAQy9gEKEFRvbGxBdWRpdFNlcnZpY2USMwoNR2V0TGl2ZVN0cmVhbRILLmF0",
-            "b20uRW1wdHkaES5hdG9tLlZlaGljbGVJbmZvIgAwARIzCgxHZXRMaXZlQ291",
-            "bnQSCy5hdG9tLkVtcHR5GhIuYXRvbS5WZWhpY2xlQ291bnQiADABEjgKD0dl",
-            "dFZlaGljbGVDb3VudBIPLmF0b20uVGltZVJhbmdlGhIuYXRvbS5WZWhpY2xl",
-            "Q291bnQiABI+ChZHZXRWZWhpY2xlQ291bnRTdW1tYXJ5Eg8uYXRvbS5UaW1l",
-            "UmFuZ2UaES5hdG9tLlZlaGljbGVJbmZvIgBiBnByb3RvMw=="));
+            "ChRhdG9tL2F0b21fdG9sbC5wcm90bxIEYXRvbSImCgxTdWJzY3JpcHRpb24S",
+            "FgoOc3Vic2NyaXB0aW9uSWQYASABKAkiJwoUU3Vic2NyaXB0aW9uUmVzcG9u",
+            "c2USDwoHc3VjY2VzcxgBIAEoCCISCgNVSUQSCwoDdWlkGAEgASgJInEKB1Zl",
+            "aGljbGUSIAoNdHJhbnNwb25kZXJJRBgBIAEoCzIJLmF0b20uVUlEEigKDHZl",
+            "aGljbGVDbGFzcxgCIAEoDjISLmF0b20uVmVoaWNsZUNsYXNzEhoKEmxpY2Vu",
+            "c2VQbGF0ZU51bWJlchgDIAEoCSIcCghUb2xsRmFyZRIQCgh0b2xsRmFyZRgB",
+            "IAEoASJyCg9Ub2xsVmVoaWNsZUluZm8SHgoHdmVoaWNsZRgBIAEoCzINLmF0",
+            "b20uVmVoaWNsZRIdCgl0aW1lc3RhbXAYAiABKAsyCi5hdG9tLmRhdGUSIAoI",
+            "dG9sbEZhcmUYAyABKAsyDi5hdG9tLlRvbGxGYXJlIh0KDFZlaGljbGVDb3Vu",
+            "dBINCgVjb3VudBgBIAEoBSJJCgtTZWFyY2hSYW5nZRIdCglzdGFydERhdGUY",
+            "ASABKAsyCi5hdG9tLmRhdGUSGwoHZW5kRGF0ZRgCIAEoCzIKLmF0b20uZGF0",
+            "ZSIYCgRkYXRlEhAKCG5hbm9zZWNzGAEgASgDIgcKBUVtcHR5KkYKDFZlaGlj",
+            "bGVDbGFzcxINCglNT1RPUkJJS0UQABIJCgVTQUxPThABEgcKA1NVVhACEgcK",
+            "A0JVUxADEgoKBk9USEVSUxAEMpUDChBUb2xsQXVkaXRTZXJ2aWNlEj0KCVN1",
+            "YnNjcmliZRISLmF0b20uU3Vic2NyaXB0aW9uGhouYXRvbS5TdWJzY3JpcHRp",
+            "b25SZXNwb25zZSIAEj8KC1Vuc3Vic2NyaWJlEhIuYXRvbS5TdWJzY3JpcHRp",
+            "b24aGi5hdG9tLlN1YnNjcmlwdGlvblJlc3BvbnNlIgASPgoNR2V0TGl2ZVN0",
+            "cmVhbRISLmF0b20uU3Vic2NyaXB0aW9uGhUuYXRvbS5Ub2xsVmVoaWNsZUlu",
+            "Zm8iADABEj8KEUdldERhaWx5TGl2ZUNvdW50EhIuYXRvbS5TdWJzY3JpcHRp",
+            "b24aEi5hdG9tLlZlaGljbGVDb3VudCIAMAESOgoPR2V0VmVoaWNsZUNvdW50",
+            "EhEuYXRvbS5TZWFyY2hSYW5nZRoSLmF0b20uVmVoaWNsZUNvdW50IgASRAoW",
+            "R2V0VmVoaWNsZUNvdW50U3VtbWFyeRIRLmF0b20uU2VhcmNoUmFuZ2UaFS5h",
+            "dG9tLlRvbGxWZWhpY2xlSW5mbyIAYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Atom.VehicleClass), }, new pbr::GeneratedClrTypeInfo[] {
+            new pbr::GeneratedClrTypeInfo(typeof(global::Atom.Subscription), global::Atom.Subscription.Parser, new[]{ "SubscriptionId" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Atom.SubscriptionResponse), global::Atom.SubscriptionResponse.Parser, new[]{ "Success" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Atom.UID), global::Atom.UID.Parser, new[]{ "Uid" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Atom.Vehicle), global::Atom.Vehicle.Parser, new[]{ "TransponderID", "VehicleClass", "LicensePlateNumber" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Atom.VehicleInfo), global::Atom.VehicleInfo.Parser, new[]{ "Vehicle", "Timestamp" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Atom.TollFare), global::Atom.TollFare.Parser, new[]{ "TollFare_" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Atom.TollVehicleInfo), global::Atom.TollVehicleInfo.Parser, new[]{ "Vehicle", "Timestamp", "TollFare" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Atom.VehicleCount), global::Atom.VehicleCount.Parser, new[]{ "Count" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Atom.TimeRange), global::Atom.TimeRange.Parser, new[]{ "StartDate", "EndDate" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Atom.SearchRange), global::Atom.SearchRange.Parser, new[]{ "StartDate", "EndDate" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Atom.date), global::Atom.date.Parser, new[]{ "Nanosecs" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Atom.Empty), global::Atom.Empty.Parser, null, null, null, null)
           }));
@@ -65,6 +75,240 @@ namespace Atom {
   #endregion
 
   #region Messages
+  public sealed partial class Subscription : pb::IMessage<Subscription> {
+    private static readonly pb::MessageParser<Subscription> _parser = new pb::MessageParser<Subscription>(() => new Subscription());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<Subscription> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Atom.AtomTollReflection.Descriptor.MessageTypes[0]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public Subscription() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public Subscription(Subscription other) : this() {
+      subscriptionId_ = other.subscriptionId_;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public Subscription Clone() {
+      return new Subscription(this);
+    }
+
+    /// <summary>Field number for the "subscriptionId" field.</summary>
+    public const int SubscriptionIdFieldNumber = 1;
+    private string subscriptionId_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string SubscriptionId {
+      get { return subscriptionId_; }
+      set {
+        subscriptionId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as Subscription);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(Subscription other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (SubscriptionId != other.SubscriptionId) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (SubscriptionId.Length != 0) hash ^= SubscriptionId.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (SubscriptionId.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(SubscriptionId);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (SubscriptionId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(SubscriptionId);
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(Subscription other) {
+      if (other == null) {
+        return;
+      }
+      if (other.SubscriptionId.Length != 0) {
+        SubscriptionId = other.SubscriptionId;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 10: {
+            SubscriptionId = input.ReadString();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class SubscriptionResponse : pb::IMessage<SubscriptionResponse> {
+    private static readonly pb::MessageParser<SubscriptionResponse> _parser = new pb::MessageParser<SubscriptionResponse>(() => new SubscriptionResponse());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<SubscriptionResponse> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Atom.AtomTollReflection.Descriptor.MessageTypes[1]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public SubscriptionResponse() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public SubscriptionResponse(SubscriptionResponse other) : this() {
+      success_ = other.success_;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public SubscriptionResponse Clone() {
+      return new SubscriptionResponse(this);
+    }
+
+    /// <summary>Field number for the "success" field.</summary>
+    public const int SuccessFieldNumber = 1;
+    private bool success_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Success {
+      get { return success_; }
+      set {
+        success_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as SubscriptionResponse);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(SubscriptionResponse other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Success != other.Success) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Success != false) hash ^= Success.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (Success != false) {
+        output.WriteRawTag(8);
+        output.WriteBool(Success);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (Success != false) {
+        size += 1 + 1;
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(SubscriptionResponse other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Success != false) {
+        Success = other.Success;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 8: {
+            Success = input.ReadBool();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
   public sealed partial class UID : pb::IMessage<UID> {
     private static readonly pb::MessageParser<UID> _parser = new pb::MessageParser<UID>(() => new UID());
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -72,7 +316,7 @@ namespace Atom {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Atom.AtomTollReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Atom.AtomTollReflection.Descriptor.MessageTypes[2]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -192,7 +436,7 @@ namespace Atom {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Atom.AtomTollReflection.Descriptor.MessageTypes[1]; }
+      get { return global::Atom.AtomTollReflection.Descriptor.MessageTypes[3]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -364,14 +608,14 @@ namespace Atom {
 
   }
 
-  public sealed partial class VehicleInfo : pb::IMessage<VehicleInfo> {
-    private static readonly pb::MessageParser<VehicleInfo> _parser = new pb::MessageParser<VehicleInfo>(() => new VehicleInfo());
+  public sealed partial class TollFare : pb::IMessage<TollFare> {
+    private static readonly pb::MessageParser<TollFare> _parser = new pb::MessageParser<TollFare>(() => new TollFare());
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<VehicleInfo> Parser { get { return _parser; } }
+    public static pb::MessageParser<TollFare> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Atom.AtomTollReflection.Descriptor.MessageTypes[2]; }
+      get { return global::Atom.AtomTollReflection.Descriptor.MessageTypes[4]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -380,21 +624,139 @@ namespace Atom {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public VehicleInfo() {
+    public TollFare() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public VehicleInfo(VehicleInfo other) : this() {
-      Vehicle = other.vehicle_ != null ? other.Vehicle.Clone() : null;
-      Timestamp = other.timestamp_ != null ? other.Timestamp.Clone() : null;
+    public TollFare(TollFare other) : this() {
+      tollFare_ = other.tollFare_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public VehicleInfo Clone() {
-      return new VehicleInfo(this);
+    public TollFare Clone() {
+      return new TollFare(this);
+    }
+
+    /// <summary>Field number for the "tollFare" field.</summary>
+    public const int TollFare_FieldNumber = 1;
+    private double tollFare_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public double TollFare_ {
+      get { return tollFare_; }
+      set {
+        tollFare_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as TollFare);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(TollFare other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (TollFare_ != other.TollFare_) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (TollFare_ != 0D) hash ^= TollFare_.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (TollFare_ != 0D) {
+        output.WriteRawTag(9);
+        output.WriteDouble(TollFare_);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (TollFare_ != 0D) {
+        size += 1 + 8;
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(TollFare other) {
+      if (other == null) {
+        return;
+      }
+      if (other.TollFare_ != 0D) {
+        TollFare_ = other.TollFare_;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 9: {
+            TollFare_ = input.ReadDouble();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class TollVehicleInfo : pb::IMessage<TollVehicleInfo> {
+    private static readonly pb::MessageParser<TollVehicleInfo> _parser = new pb::MessageParser<TollVehicleInfo>(() => new TollVehicleInfo());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<TollVehicleInfo> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Atom.AtomTollReflection.Descriptor.MessageTypes[5]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public TollVehicleInfo() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public TollVehicleInfo(TollVehicleInfo other) : this() {
+      Vehicle = other.vehicle_ != null ? other.Vehicle.Clone() : null;
+      Timestamp = other.timestamp_ != null ? other.Timestamp.Clone() : null;
+      TollFare = other.tollFare_ != null ? other.TollFare.Clone() : null;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public TollVehicleInfo Clone() {
+      return new TollVehicleInfo(this);
     }
 
     /// <summary>Field number for the "vehicle" field.</summary>
@@ -419,13 +781,24 @@ namespace Atom {
       }
     }
 
+    /// <summary>Field number for the "tollFare" field.</summary>
+    public const int TollFareFieldNumber = 3;
+    private global::Atom.TollFare tollFare_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public override bool Equals(object other) {
-      return Equals(other as VehicleInfo);
+    public global::Atom.TollFare TollFare {
+      get { return tollFare_; }
+      set {
+        tollFare_ = value;
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(VehicleInfo other) {
+    public override bool Equals(object other) {
+      return Equals(other as TollVehicleInfo);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(TollVehicleInfo other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -434,6 +807,7 @@ namespace Atom {
       }
       if (!object.Equals(Vehicle, other.Vehicle)) return false;
       if (!object.Equals(Timestamp, other.Timestamp)) return false;
+      if (!object.Equals(TollFare, other.TollFare)) return false;
       return true;
     }
 
@@ -442,6 +816,7 @@ namespace Atom {
       int hash = 1;
       if (vehicle_ != null) hash ^= Vehicle.GetHashCode();
       if (timestamp_ != null) hash ^= Timestamp.GetHashCode();
+      if (tollFare_ != null) hash ^= TollFare.GetHashCode();
       return hash;
     }
 
@@ -460,6 +835,10 @@ namespace Atom {
         output.WriteRawTag(18);
         output.WriteMessage(Timestamp);
       }
+      if (tollFare_ != null) {
+        output.WriteRawTag(26);
+        output.WriteMessage(TollFare);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -471,11 +850,14 @@ namespace Atom {
       if (timestamp_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(Timestamp);
       }
+      if (tollFare_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(TollFare);
+      }
       return size;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(VehicleInfo other) {
+    public void MergeFrom(TollVehicleInfo other) {
       if (other == null) {
         return;
       }
@@ -490,6 +872,12 @@ namespace Atom {
           timestamp_ = new global::Atom.date();
         }
         Timestamp.MergeFrom(other.Timestamp);
+      }
+      if (other.tollFare_ != null) {
+        if (tollFare_ == null) {
+          tollFare_ = new global::Atom.TollFare();
+        }
+        TollFare.MergeFrom(other.TollFare);
       }
     }
 
@@ -515,6 +903,13 @@ namespace Atom {
             input.ReadMessage(timestamp_);
             break;
           }
+          case 26: {
+            if (tollFare_ == null) {
+              tollFare_ = new global::Atom.TollFare();
+            }
+            input.ReadMessage(tollFare_);
+            break;
+          }
         }
       }
     }
@@ -528,7 +923,7 @@ namespace Atom {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Atom.AtomTollReflection.Descriptor.MessageTypes[3]; }
+      get { return global::Atom.AtomTollReflection.Descriptor.MessageTypes[6]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -638,14 +1033,14 @@ namespace Atom {
 
   }
 
-  public sealed partial class TimeRange : pb::IMessage<TimeRange> {
-    private static readonly pb::MessageParser<TimeRange> _parser = new pb::MessageParser<TimeRange>(() => new TimeRange());
+  public sealed partial class SearchRange : pb::IMessage<SearchRange> {
+    private static readonly pb::MessageParser<SearchRange> _parser = new pb::MessageParser<SearchRange>(() => new SearchRange());
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<TimeRange> Parser { get { return _parser; } }
+    public static pb::MessageParser<SearchRange> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Atom.AtomTollReflection.Descriptor.MessageTypes[4]; }
+      get { return global::Atom.AtomTollReflection.Descriptor.MessageTypes[7]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -654,21 +1049,21 @@ namespace Atom {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public TimeRange() {
+    public SearchRange() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public TimeRange(TimeRange other) : this() {
+    public SearchRange(SearchRange other) : this() {
       StartDate = other.startDate_ != null ? other.StartDate.Clone() : null;
       EndDate = other.endDate_ != null ? other.EndDate.Clone() : null;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public TimeRange Clone() {
-      return new TimeRange(this);
+    public SearchRange Clone() {
+      return new SearchRange(this);
     }
 
     /// <summary>Field number for the "startDate" field.</summary>
@@ -695,11 +1090,11 @@ namespace Atom {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as TimeRange);
+      return Equals(other as SearchRange);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(TimeRange other) {
+    public bool Equals(SearchRange other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -749,7 +1144,7 @@ namespace Atom {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(TimeRange other) {
+    public void MergeFrom(SearchRange other) {
       if (other == null) {
         return;
       }
@@ -802,7 +1197,7 @@ namespace Atom {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Atom.AtomTollReflection.Descriptor.MessageTypes[5]; }
+      get { return global::Atom.AtomTollReflection.Descriptor.MessageTypes[8]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -922,7 +1317,7 @@ namespace Atom {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Atom.AtomTollReflection.Descriptor.MessageTypes[6]; }
+      get { return global::Atom.AtomTollReflection.Descriptor.MessageTypes[9]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

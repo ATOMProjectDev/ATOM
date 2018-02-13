@@ -15,12 +15,12 @@ namespace TollOperatorClient
                 this.client = client;
             }
 
-            public async Task GetStream(Atom.Empty empty)
+            public async Task GetStream(Atom.Subscription sub)
             {
                 int count = 1;
                 try
                 {
-                    using (var call = client.GetLiveStream(empty))
+                    using (var call = client.GetLiveStream(sub))
                     {
                         var responseStream = call.ResponseStream;
                         //StringBuilder responseLog = new StringBuilder("Result: ");
@@ -45,7 +45,7 @@ namespace TollOperatorClient
         {
             Channel channel = new Channel("127.0.0.1:50051", ChannelCredentials.Insecure);
             var client = new Client(new Atom.TollAuditService.TollAuditServiceClient(channel));
-            Atom.Empty request = new Atom.Empty();
+            Atom.Subscription request = new Atom.Subscription { SubscriptionId = "FMPWH-123" };
             client.GetStream(request).Wait();
             channel.ShutdownAsync().Wait();
             Console.WriteLine("Press any key to exit...");

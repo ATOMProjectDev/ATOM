@@ -5,19 +5,23 @@
 // you may not use this file except in compliance with the Atom License.
 
 syntax = "proto3";
-import "google/protobuf/timestamp.proto";
+//import "google/protobuf/timestamp.proto";
 
 package atom;
 
 // functions implemented and exposed by all toll operators consumed by DASH
-service TollService {
-  // get real-time data; process incoming one at a time
-  rpc GetLiveStream (Empty) returns (stream VehicleInfo) {}
-  // function implemented and exposed by the toll operators and CR-Chips
-  rpc GetDailyLiveCount (Empty) returns (stream VehicleCount) {}
-  // get historical data
-  rpc GetVehicleCount (SearchRange) returns (VehicleCount) {} 
-  rpc GetVehicleCountSummary (SearchRange) returns (VehicleInfo) {} 
+service TollAuditService {
+	// subscribe to toll events
+	rpc Subscribe(Subscription) returns (SubscriptionResponse) {}
+	// unsubscribe from toll events
+	rpc Unsubscribe(Subscription) returns (SubscriptionResponse) {}
+    // get real-time data; process incoming one at a time
+    rpc GetLiveStream (Subscription) returns (stream TollVehicleInfo) {}
+    // function implemented and exposed by the toll operators and CR-Chips
+    rpc GetDailyLiveCount (Subscription) returns (stream VehicleCount) {}
+    // get historical data
+    rpc GetVehicleCount (SearchRange) returns (VehicleCount) {} 
+    rpc GetVehicleCountSummary (SearchRange) returns (TollVehicleInfo) {} 
 }
 
 enum VehicleClass {
@@ -26,6 +30,12 @@ enum VehicleClass {
   SUV = 2;
   BUS = 3;
   OTHERS = 4;
+}
+message Subscription {
+	string subscriptionId = 1;
+}
+message SubscriptionResponse {
+	bool success = 1;
 }
 message UID {
   // uniquely identifies a vehicle
@@ -41,7 +51,7 @@ message TollFare {
 }
 message TollVehicleInfo { 
   Vehicle vehicle = 1;
-  google.protobuf.Timestamp timestamp = 2;
+  date timestamp = 2;
   TollFare tollFare = 3;
 }
 message VehicleCount {

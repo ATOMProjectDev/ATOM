@@ -23,38 +23,53 @@ namespace Atom {
   {
     static readonly string __ServiceName = "atom.TollAuditService";
 
-    static readonly grpc::Marshaller<global::Atom.Empty> __Marshaller_Empty = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Atom.Empty.Parser.ParseFrom);
-    static readonly grpc::Marshaller<global::Atom.VehicleInfo> __Marshaller_VehicleInfo = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Atom.VehicleInfo.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::Atom.Subscription> __Marshaller_Subscription = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Atom.Subscription.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::Atom.SubscriptionResponse> __Marshaller_SubscriptionResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Atom.SubscriptionResponse.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::Atom.TollVehicleInfo> __Marshaller_TollVehicleInfo = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Atom.TollVehicleInfo.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::Atom.VehicleCount> __Marshaller_VehicleCount = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Atom.VehicleCount.Parser.ParseFrom);
-    static readonly grpc::Marshaller<global::Atom.TimeRange> __Marshaller_TimeRange = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Atom.TimeRange.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::Atom.SearchRange> __Marshaller_SearchRange = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Atom.SearchRange.Parser.ParseFrom);
 
-    static readonly grpc::Method<global::Atom.Empty, global::Atom.VehicleInfo> __Method_GetLiveStream = new grpc::Method<global::Atom.Empty, global::Atom.VehicleInfo>(
+    static readonly grpc::Method<global::Atom.Subscription, global::Atom.SubscriptionResponse> __Method_Subscribe = new grpc::Method<global::Atom.Subscription, global::Atom.SubscriptionResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "Subscribe",
+        __Marshaller_Subscription,
+        __Marshaller_SubscriptionResponse);
+
+    static readonly grpc::Method<global::Atom.Subscription, global::Atom.SubscriptionResponse> __Method_Unsubscribe = new grpc::Method<global::Atom.Subscription, global::Atom.SubscriptionResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "Unsubscribe",
+        __Marshaller_Subscription,
+        __Marshaller_SubscriptionResponse);
+
+    static readonly grpc::Method<global::Atom.Subscription, global::Atom.TollVehicleInfo> __Method_GetLiveStream = new grpc::Method<global::Atom.Subscription, global::Atom.TollVehicleInfo>(
         grpc::MethodType.ServerStreaming,
         __ServiceName,
         "GetLiveStream",
-        __Marshaller_Empty,
-        __Marshaller_VehicleInfo);
+        __Marshaller_Subscription,
+        __Marshaller_TollVehicleInfo);
 
-    static readonly grpc::Method<global::Atom.Empty, global::Atom.VehicleCount> __Method_GetLiveCount = new grpc::Method<global::Atom.Empty, global::Atom.VehicleCount>(
+    static readonly grpc::Method<global::Atom.Subscription, global::Atom.VehicleCount> __Method_GetDailyLiveCount = new grpc::Method<global::Atom.Subscription, global::Atom.VehicleCount>(
         grpc::MethodType.ServerStreaming,
         __ServiceName,
-        "GetLiveCount",
-        __Marshaller_Empty,
+        "GetDailyLiveCount",
+        __Marshaller_Subscription,
         __Marshaller_VehicleCount);
 
-    static readonly grpc::Method<global::Atom.TimeRange, global::Atom.VehicleCount> __Method_GetVehicleCount = new grpc::Method<global::Atom.TimeRange, global::Atom.VehicleCount>(
+    static readonly grpc::Method<global::Atom.SearchRange, global::Atom.VehicleCount> __Method_GetVehicleCount = new grpc::Method<global::Atom.SearchRange, global::Atom.VehicleCount>(
         grpc::MethodType.Unary,
         __ServiceName,
         "GetVehicleCount",
-        __Marshaller_TimeRange,
+        __Marshaller_SearchRange,
         __Marshaller_VehicleCount);
 
-    static readonly grpc::Method<global::Atom.TimeRange, global::Atom.VehicleInfo> __Method_GetVehicleCountSummary = new grpc::Method<global::Atom.TimeRange, global::Atom.VehicleInfo>(
+    static readonly grpc::Method<global::Atom.SearchRange, global::Atom.TollVehicleInfo> __Method_GetVehicleCountSummary = new grpc::Method<global::Atom.SearchRange, global::Atom.TollVehicleInfo>(
         grpc::MethodType.Unary,
         __ServiceName,
         "GetVehicleCountSummary",
-        __Marshaller_TimeRange,
-        __Marshaller_VehicleInfo);
+        __Marshaller_SearchRange,
+        __Marshaller_TollVehicleInfo);
 
     /// <summary>Service descriptor</summary>
     public static global::Google.Protobuf.Reflection.ServiceDescriptor Descriptor
@@ -66,25 +81,47 @@ namespace Atom {
     public abstract partial class TollAuditServiceBase
     {
       /// <summary>
+      /// subscribe to toll events
+      /// </summary>
+      /// <param name="request">The request received from the client.</param>
+      /// <param name="context">The context of the server-side call handler being invoked.</param>
+      /// <returns>The response to send back to the client (wrapped by a task).</returns>
+      public virtual global::System.Threading.Tasks.Task<global::Atom.SubscriptionResponse> Subscribe(global::Atom.Subscription request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      /// <summary>
+      /// unsubscribe from toll events
+      /// </summary>
+      /// <param name="request">The request received from the client.</param>
+      /// <param name="context">The context of the server-side call handler being invoked.</param>
+      /// <returns>The response to send back to the client (wrapped by a task).</returns>
+      public virtual global::System.Threading.Tasks.Task<global::Atom.SubscriptionResponse> Unsubscribe(global::Atom.Subscription request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      /// <summary>
       /// get real-time data; process incoming one at a time
       /// </summary>
       /// <param name="request">The request received from the client.</param>
       /// <param name="responseStream">Used for sending responses back to the client.</param>
       /// <param name="context">The context of the server-side call handler being invoked.</param>
       /// <returns>A task indicating completion of the handler.</returns>
-      public virtual global::System.Threading.Tasks.Task GetLiveStream(global::Atom.Empty request, grpc::IServerStreamWriter<global::Atom.VehicleInfo> responseStream, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task GetLiveStream(global::Atom.Subscription request, grpc::IServerStreamWriter<global::Atom.TollVehicleInfo> responseStream, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
 
       /// <summary>
-      /// function implemented and exposed by the CR-Chips
+      /// function implemented and exposed by the toll operators and CR-Chips
       /// </summary>
       /// <param name="request">The request received from the client.</param>
       /// <param name="responseStream">Used for sending responses back to the client.</param>
       /// <param name="context">The context of the server-side call handler being invoked.</param>
       /// <returns>A task indicating completion of the handler.</returns>
-      public virtual global::System.Threading.Tasks.Task GetLiveCount(global::Atom.Empty request, grpc::IServerStreamWriter<global::Atom.VehicleCount> responseStream, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task GetDailyLiveCount(global::Atom.Subscription request, grpc::IServerStreamWriter<global::Atom.VehicleCount> responseStream, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -95,12 +132,12 @@ namespace Atom {
       /// <param name="request">The request received from the client.</param>
       /// <param name="context">The context of the server-side call handler being invoked.</param>
       /// <returns>The response to send back to the client (wrapped by a task).</returns>
-      public virtual global::System.Threading.Tasks.Task<global::Atom.VehicleCount> GetVehicleCount(global::Atom.TimeRange request, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task<global::Atom.VehicleCount> GetVehicleCount(global::Atom.SearchRange request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
 
-      public virtual global::System.Threading.Tasks.Task<global::Atom.VehicleInfo> GetVehicleCountSummary(global::Atom.TimeRange request, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task<global::Atom.TollVehicleInfo> GetVehicleCountSummary(global::Atom.SearchRange request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -131,6 +168,94 @@ namespace Atom {
       }
 
       /// <summary>
+      /// subscribe to toll events
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The response received from the server.</returns>
+      public virtual global::Atom.SubscriptionResponse Subscribe(global::Atom.Subscription request, grpc::Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default(CancellationToken))
+      {
+        return Subscribe(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// subscribe to toll events
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The response received from the server.</returns>
+      public virtual global::Atom.SubscriptionResponse Subscribe(global::Atom.Subscription request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_Subscribe, null, options, request);
+      }
+      /// <summary>
+      /// subscribe to toll events
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
+      public virtual grpc::AsyncUnaryCall<global::Atom.SubscriptionResponse> SubscribeAsync(global::Atom.Subscription request, grpc::Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default(CancellationToken))
+      {
+        return SubscribeAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// subscribe to toll events
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
+      public virtual grpc::AsyncUnaryCall<global::Atom.SubscriptionResponse> SubscribeAsync(global::Atom.Subscription request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_Subscribe, null, options, request);
+      }
+      /// <summary>
+      /// unsubscribe from toll events
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The response received from the server.</returns>
+      public virtual global::Atom.SubscriptionResponse Unsubscribe(global::Atom.Subscription request, grpc::Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default(CancellationToken))
+      {
+        return Unsubscribe(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// unsubscribe from toll events
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The response received from the server.</returns>
+      public virtual global::Atom.SubscriptionResponse Unsubscribe(global::Atom.Subscription request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_Unsubscribe, null, options, request);
+      }
+      /// <summary>
+      /// unsubscribe from toll events
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
+      public virtual grpc::AsyncUnaryCall<global::Atom.SubscriptionResponse> UnsubscribeAsync(global::Atom.Subscription request, grpc::Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default(CancellationToken))
+      {
+        return UnsubscribeAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// unsubscribe from toll events
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
+      public virtual grpc::AsyncUnaryCall<global::Atom.SubscriptionResponse> UnsubscribeAsync(global::Atom.Subscription request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_Unsubscribe, null, options, request);
+      }
+      /// <summary>
       /// get real-time data; process incoming one at a time
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
@@ -138,7 +263,7 @@ namespace Atom {
       /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
       /// <param name="cancellationToken">An optional token for canceling the call.</param>
       /// <returns>The call object.</returns>
-      public virtual grpc::AsyncServerStreamingCall<global::Atom.VehicleInfo> GetLiveStream(global::Atom.Empty request, grpc::Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default(CancellationToken))
+      public virtual grpc::AsyncServerStreamingCall<global::Atom.TollVehicleInfo> GetLiveStream(global::Atom.Subscription request, grpc::Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default(CancellationToken))
       {
         return GetLiveStream(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
@@ -148,31 +273,31 @@ namespace Atom {
       /// <param name="request">The request to send to the server.</param>
       /// <param name="options">The options for the call.</param>
       /// <returns>The call object.</returns>
-      public virtual grpc::AsyncServerStreamingCall<global::Atom.VehicleInfo> GetLiveStream(global::Atom.Empty request, grpc::CallOptions options)
+      public virtual grpc::AsyncServerStreamingCall<global::Atom.TollVehicleInfo> GetLiveStream(global::Atom.Subscription request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncServerStreamingCall(__Method_GetLiveStream, null, options, request);
       }
       /// <summary>
-      /// function implemented and exposed by the CR-Chips
+      /// function implemented and exposed by the toll operators and CR-Chips
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
       /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
       /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
       /// <param name="cancellationToken">An optional token for canceling the call.</param>
       /// <returns>The call object.</returns>
-      public virtual grpc::AsyncServerStreamingCall<global::Atom.VehicleCount> GetLiveCount(global::Atom.Empty request, grpc::Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default(CancellationToken))
+      public virtual grpc::AsyncServerStreamingCall<global::Atom.VehicleCount> GetDailyLiveCount(global::Atom.Subscription request, grpc::Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default(CancellationToken))
       {
-        return GetLiveCount(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+        return GetDailyLiveCount(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
       /// <summary>
-      /// function implemented and exposed by the CR-Chips
+      /// function implemented and exposed by the toll operators and CR-Chips
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
       /// <param name="options">The options for the call.</param>
       /// <returns>The call object.</returns>
-      public virtual grpc::AsyncServerStreamingCall<global::Atom.VehicleCount> GetLiveCount(global::Atom.Empty request, grpc::CallOptions options)
+      public virtual grpc::AsyncServerStreamingCall<global::Atom.VehicleCount> GetDailyLiveCount(global::Atom.Subscription request, grpc::CallOptions options)
       {
-        return CallInvoker.AsyncServerStreamingCall(__Method_GetLiveCount, null, options, request);
+        return CallInvoker.AsyncServerStreamingCall(__Method_GetDailyLiveCount, null, options, request);
       }
       /// <summary>
       /// get historical data
@@ -182,7 +307,7 @@ namespace Atom {
       /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
       /// <param name="cancellationToken">An optional token for canceling the call.</param>
       /// <returns>The response received from the server.</returns>
-      public virtual global::Atom.VehicleCount GetVehicleCount(global::Atom.TimeRange request, grpc::Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default(CancellationToken))
+      public virtual global::Atom.VehicleCount GetVehicleCount(global::Atom.SearchRange request, grpc::Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default(CancellationToken))
       {
         return GetVehicleCount(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
@@ -192,7 +317,7 @@ namespace Atom {
       /// <param name="request">The request to send to the server.</param>
       /// <param name="options">The options for the call.</param>
       /// <returns>The response received from the server.</returns>
-      public virtual global::Atom.VehicleCount GetVehicleCount(global::Atom.TimeRange request, grpc::CallOptions options)
+      public virtual global::Atom.VehicleCount GetVehicleCount(global::Atom.SearchRange request, grpc::CallOptions options)
       {
         return CallInvoker.BlockingUnaryCall(__Method_GetVehicleCount, null, options, request);
       }
@@ -204,7 +329,7 @@ namespace Atom {
       /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
       /// <param name="cancellationToken">An optional token for canceling the call.</param>
       /// <returns>The call object.</returns>
-      public virtual grpc::AsyncUnaryCall<global::Atom.VehicleCount> GetVehicleCountAsync(global::Atom.TimeRange request, grpc::Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default(CancellationToken))
+      public virtual grpc::AsyncUnaryCall<global::Atom.VehicleCount> GetVehicleCountAsync(global::Atom.SearchRange request, grpc::Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default(CancellationToken))
       {
         return GetVehicleCountAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
@@ -214,23 +339,23 @@ namespace Atom {
       /// <param name="request">The request to send to the server.</param>
       /// <param name="options">The options for the call.</param>
       /// <returns>The call object.</returns>
-      public virtual grpc::AsyncUnaryCall<global::Atom.VehicleCount> GetVehicleCountAsync(global::Atom.TimeRange request, grpc::CallOptions options)
+      public virtual grpc::AsyncUnaryCall<global::Atom.VehicleCount> GetVehicleCountAsync(global::Atom.SearchRange request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_GetVehicleCount, null, options, request);
       }
-      public virtual global::Atom.VehicleInfo GetVehicleCountSummary(global::Atom.TimeRange request, grpc::Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default(CancellationToken))
+      public virtual global::Atom.TollVehicleInfo GetVehicleCountSummary(global::Atom.SearchRange request, grpc::Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default(CancellationToken))
       {
         return GetVehicleCountSummary(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
-      public virtual global::Atom.VehicleInfo GetVehicleCountSummary(global::Atom.TimeRange request, grpc::CallOptions options)
+      public virtual global::Atom.TollVehicleInfo GetVehicleCountSummary(global::Atom.SearchRange request, grpc::CallOptions options)
       {
         return CallInvoker.BlockingUnaryCall(__Method_GetVehicleCountSummary, null, options, request);
       }
-      public virtual grpc::AsyncUnaryCall<global::Atom.VehicleInfo> GetVehicleCountSummaryAsync(global::Atom.TimeRange request, grpc::Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default(CancellationToken))
+      public virtual grpc::AsyncUnaryCall<global::Atom.TollVehicleInfo> GetVehicleCountSummaryAsync(global::Atom.SearchRange request, grpc::Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default(CancellationToken))
       {
         return GetVehicleCountSummaryAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
-      public virtual grpc::AsyncUnaryCall<global::Atom.VehicleInfo> GetVehicleCountSummaryAsync(global::Atom.TimeRange request, grpc::CallOptions options)
+      public virtual grpc::AsyncUnaryCall<global::Atom.TollVehicleInfo> GetVehicleCountSummaryAsync(global::Atom.SearchRange request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_GetVehicleCountSummary, null, options, request);
       }
@@ -246,8 +371,10 @@ namespace Atom {
     public static grpc::ServerServiceDefinition BindService(TollAuditServiceBase serviceImpl)
     {
       return grpc::ServerServiceDefinition.CreateBuilder()
+          .AddMethod(__Method_Subscribe, serviceImpl.Subscribe)
+          .AddMethod(__Method_Unsubscribe, serviceImpl.Unsubscribe)
           .AddMethod(__Method_GetLiveStream, serviceImpl.GetLiveStream)
-          .AddMethod(__Method_GetLiveCount, serviceImpl.GetLiveCount)
+          .AddMethod(__Method_GetDailyLiveCount, serviceImpl.GetDailyLiveCount)
           .AddMethod(__Method_GetVehicleCount, serviceImpl.GetVehicleCount)
           .AddMethod(__Method_GetVehicleCountSummary, serviceImpl.GetVehicleCountSummary).Build();
     }
