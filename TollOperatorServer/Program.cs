@@ -11,7 +11,7 @@ namespace TollOperatorServer
         static TollOperation_API tollAPI = new TollOperation_API();
         static async Task<List<TollVehicleInfo>> GetVehicle()
         {
-            var result = await Task.Run(()=>TollOperationSimulator.VehicleInfoGenerator.GenerateVehicleInfo(18, 0));
+            var result = await Task.Run(()=>TollOperationSimulator.VehicleInfoGenerator.GenerateVehicleInfo(1, 0));
             return result;
         }
 
