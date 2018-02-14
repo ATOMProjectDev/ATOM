@@ -10,26 +10,30 @@ namespace TollOperatorServer
 {
     class TollOperation_API : TollAuditService.TollAuditServiceBase
     {
+        // data stream to push/publish toll vehicle info from server to client
         private readonly BufferBlock<TollVehicleInfo> _buffer = new BufferBlock<TollVehicleInfo>();
 
+        // dictionary to hold subscribed clients and their respective callback response stream to pass data back to client on subscribed events
         private Dictionary<string, IServerStreamWriter<TollVehicleInfo>> _subscriberWritersMap =
             new Dictionary<string, IServerStreamWriter<TollVehicleInfo>>();
 
+        // subscribe client 
         public override Task<SubscriptionResponse> Subscribe(Subscription subscription, ServerCallContext context)
         {
             var result = Subscribe(subscription.SubscriptionId);            
             return Task.FromResult(new SubscriptionResponse { Success = result });
         }
 
+        // unsubscribe client
         public override Task<SubscriptionResponse> Unsubscribe(Subscription request, ServerCallContext context)
         {
-            _subscriberWritersMap.Remove(request.SubscriptionId);
-            return Task.FromResult(new SubscriptionResponse() { Success = true }); // **********
+            var result = Unsubscribe(request.SubscriptionId);
+            return Task.FromResult(new SubscriptionResponse() { Success = result }); 
         }
 
         private bool Subscribe(string id)
         {
-            // persist subscription id in a data repository
+            // persist subscription id addition in a data repository
             try
             {
                 _subscriberWritersMap.Add(id, null);
@@ -37,6 +41,21 @@ namespace TollOperatorServer
             catch (Exception ex)
             {
                 // return false if subscription fails
+                return false;
+            }
+            return true;
+        }
+
+        private bool Unsubscribe(string id)
+        {
+            // persist subscription id removal in a data repository
+            try
+            {
+                _subscriberWritersMap.Remove(id);
+            }
+            catch (Exception ex)
+            {
+                // return false if unsubscription fails
                 return false;
             }
             return true;

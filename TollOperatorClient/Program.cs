@@ -20,19 +20,17 @@ namespace TollOperatorClient
                 int count = 1;
                 try
                 {
+                    // call GetLiveStream method in server
                     using (var call = client.GetLiveStream(sub))
                     {
                         var responseStream = call.ResponseStream;
-                        //StringBuilder responseLog = new StringBuilder("Result: ");
 
+                        // get events (toll vehicle info) from server
                         while (await responseStream.MoveNext())
                         {
-                            var info = responseStream.Current;
+                            var info = responseStream.Current; // get current event
                             System.Console.WriteLine($"# {count++}: " + info);
-                            await Task.Delay(1000);
-                            //responseLog.Append(info.ToString());
                         }
-                        //System.Console.WriteLine(responseLog.ToString());
                     }
                 }
                 catch (Exception e)
@@ -45,8 +43,10 @@ namespace TollOperatorClient
         {
             Channel channel = new Channel("127.0.0.1:50051", ChannelCredentials.Insecure);
             var client = new Client(new Atom.TollAuditService.TollAuditServiceClient(channel));
+
+            // create subscription with an id; generate id with each execution
             Atom.Subscription request = new Atom.Subscription { SubscriptionId = "FMPWH-" + new Random().Next(100, 999) };
-            client.GetStream(request).Wait();
+            client.GetStream(request).Wait(); 
             channel.ShutdownAsync().Wait();
             Console.WriteLine("Press any key to exit...");
             Console.ReadKey();
