@@ -27,7 +27,7 @@ namespace TollOperatorServer
             server.Start();
 
             Console.WriteLine("Atom server listening on port " + Port);
-            while (Console.ReadLine() != "q")
+            while (Console.ReadLine() != "exit")
             {
                 var result = GetVehicle();
                 tollAPI.Publish(result.Result[0]);

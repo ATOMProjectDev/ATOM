@@ -45,7 +45,7 @@ namespace TollOperatorClient
         {
             Channel channel = new Channel("127.0.0.1:50051", ChannelCredentials.Insecure);
             var client = new Client(new Atom.TollAuditService.TollAuditServiceClient(channel));
-            Atom.Subscription request = new Atom.Subscription { SubscriptionId = "FMPWH-123" };
+            Atom.Subscription request = new Atom.Subscription { SubscriptionId = "FMPWH-" + new Random().Next(100, 999) };
             client.GetStream(request).Wait();
             channel.ShutdownAsync().Wait();
             Console.WriteLine("Press any key to exit...");
