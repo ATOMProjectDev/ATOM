@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TollOperators>
+  <Operator id="123">
+    <ipAddress>localhost</ipAddress>
+    <port>5060</port>
+  </Operator>
+  <Operator id="456">
+    <ipAddress>localhost</ipAddress>
+    <port>5061</port>
+  </Operator>
+  <Operator id="789">
+    <ipAddress>localhost</ipAddress>
+    <port>5062</port>
+  </Operator>
+</TollOperators>

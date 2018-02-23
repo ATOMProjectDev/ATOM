@@ -17,7 +17,7 @@ namespace TollOperationSimulator
 
         static UID GenerateTransponderID()
         {
-             return new UID { Uid = new Random().Next(1000, 99999).ToString() };
+             return new UID { Uid = new Random().Next(1000000, 9999999).ToString() };
         }
         static string GenerateLicensePlate()
         {

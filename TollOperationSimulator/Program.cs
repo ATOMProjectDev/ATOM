@@ -10,7 +10,7 @@ namespace TollOperationSimulator
             //while (true)
             {
                 // TODO: REPORT BUG - ENUM VALUE WITH ZERO FIELD NUMBER DOES NOT PRINT WITH TOSTRING FUNCTION IN CONSOLE.WRITELINE: Console.WriteLine(VehicleInfo.ToString());
-                foreach(var vehicle in VehicleInfoGenerator.GenerateVehicleInfo(10, 1000))
+                foreach(var vehicle in VehicleInfoGenerator.GenerateVehicleInfo(10))
                 {
                     Console.WriteLine(VehicleInfoGenerator.VehicleInfoToString(vehicle));
                 }

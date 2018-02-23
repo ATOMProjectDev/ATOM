@@ -1,7 +1,6 @@
 ﻿using System;
 using Atom;
 using System.Collections.Generic;
-using System.Text;
 using Grpc.Core;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
@@ -13,18 +12,18 @@ namespace TollOperatorServer
         // data stream to push/publish toll vehicle info from server to client
         private readonly BufferBlock<TollVehicleInfo> _buffer = new BufferBlock<TollVehicleInfo>();
 
-        // dictionary to hold subscribed clients and their respective callback response stream to pass data back to client on subscribed events
-        private Dictionary<string, IServerStreamWriter<TollVehicleInfo>> _subscriberWritersMap =
+        // in-memory repository to hold a streamWriter for each client subscriber and their respective callback response stream to pass data back to clients
+        private static Dictionary<string, IServerStreamWriter<TollVehicleInfo>> _subscribedClients =
             new Dictionary<string, IServerStreamWriter<TollVehicleInfo>>();
 
-        // subscribe client 
+        // subscribe client to toll events
         public override Task<SubscriptionResponse> Subscribe(Subscription subscription, ServerCallContext context)
         {
             var result = Subscribe(subscription.SubscriptionId);            
             return Task.FromResult(new SubscriptionResponse { Success = result });
         }
 
-        // unsubscribe client
+        // unsubscribe client from toll events
         public override Task<SubscriptionResponse> Unsubscribe(Subscription request, ServerCallContext context)
         {
             var result = Unsubscribe(request.SubscriptionId);
@@ -36,9 +35,9 @@ namespace TollOperatorServer
             // persist subscription id addition in a data repository
             try
             {
-                _subscriberWritersMap.Add(id, null);
+                _subscribedClients.Add(id, null);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // return false if subscription fails
                 return false;
@@ -51,9 +50,9 @@ namespace TollOperatorServer
             // persist subscription id removal in a data repository
             try
             {
-                _subscriberWritersMap.Remove(id);
+                _subscribedClients.Remove(id);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // return false if unsubscription fails
                 return false;
@@ -68,23 +67,26 @@ namespace TollOperatorServer
 
         public override async Task GetLiveStream(Subscription request, IServerStreamWriter<TollVehicleInfo> responseStream, ServerCallContext context)
         {
-            // in-memory repository to hold a streamWriter for each subscriber
-            _subscriberWritersMap[request.SubscriptionId] = responseStream;
+            //if (_subscribedClients.ContainsKey(request.SubscriptionId))
+                _subscribedClients[request.SubscriptionId] = responseStream;
 
-            while (_subscriberWritersMap.ContainsKey(request.SubscriptionId))
+            while (_subscribedClients.ContainsKey(request.SubscriptionId))
             {
-                // Wait on BufferBlock from TPL Dataflow
-                var @event = await _buffer.ReceiveAsync();
-                foreach (var serverStreamWriter in _subscriberWritersMap.Values)
+                // Wait on BufferBlock to receive asynchronously from target source
+                var vehicleInfo = await _buffer.ReceiveAsync();
+                
+                foreach (var serverStreamWriter in _subscribedClients.Values)
                 {
-                    await serverStreamWriter.WriteAsync(@event);
+                    try
+                    {
+                        await serverStreamWriter.WriteAsync(vehicleInfo);
+                    }
+                    catch
+                    {
+                        // catch for exceptions thrown when connection with client is lost!
+                    }
                 }
             }
-            //var responses = TollOperationSimulator.VehicleInfoGenerator.GenerateVehicleInfo(18, 0);
-            //foreach (var response in responses)
-            //{
-            //    await responseStream.WriteAsync(response);
-            //}
         }
 
         public override Task<VehicleCount> GetVehicleCount(SearchRange request, ServerCallContext context)

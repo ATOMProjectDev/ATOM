@@ -7,14 +7,14 @@ namespace TollOperationSimulator
 {
     public static class VehicleInfoGenerator
     {
-        public static List<TollVehicleInfo> GenerateVehicleInfo(int count, int millisec)
+        public static List<TollVehicleInfo> GenerateVehicleInfo(int count)//, int millisec)
         {
             //date date = DateConverter.Convert(2018, 1, 12, 22, 35, 20);
             List<TollVehicleInfo> vehicleInfo = new List<TollVehicleInfo>(count);
             for (int index = 0; index < count; index++)
             {
                 vehicleInfo.Add(new TollVehicleInfo() { Timestamp = new date { Nanosecs = DateTime.Now.Ticks }, Vehicle = VehicleGenerator.GenerateVehicle() });
-                System.Threading.Thread.Sleep(millisec);
+                //System.Threading.Thread.Sleep(millisec);
             }
             return vehicleInfo;
         }
