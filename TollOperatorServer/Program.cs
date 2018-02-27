@@ -16,8 +16,8 @@ namespace TollOperatorServer
         // generate vehicle
         static async Task<List<TollVehicleInfo>> GetVehicle()
         {
-            var result = await Task.Run(()=>TollOperationSimulator.VehicleInfoGenerator.GenerateVehicleInfo(1)); // generate one vehicle on timer event fire
-            return result;
+            return await Task.Run(()=>TollOperationSimulator.VehicleInfoGenerator.GenerateVehicleInfo(1)); // generate one vehicle on timer event fire
+            
         }
 
         // timer callback that invokes method to generate vehicle

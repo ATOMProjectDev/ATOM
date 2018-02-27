@@ -20,13 +20,13 @@ namespace TollOperatorClient
         static void Main(string[] args)
         {
             channels = new List<TollPoint>
-                                {
-                                    //var channelCredentials = new SslCredentials(System.IO.File.ReadAllText("roots.pem"));  // Load a custom roots file.
+                            {
+                                //var channelCredentials = new SslCredentials(System.IO.File.ReadAllText("roots.pem"));  // Load a custom roots file.
 
-                                    // TODO: get channel ips, ports and ids from a config file/database
-                                    new TollPoint { Channel = new Channel("localhost:50051", /*channelCredentials*/ ChannelCredentials.Insecure), TollCode = "TOLL2" },
-                                    new TollPoint { Channel = new Channel("localhost:50052", /*channelCredentials*/ ChannelCredentials.Insecure), TollCode = "TOLL1" }
-                                };
+                                // TODO: get channel ips, ports and ids from a config file/database
+                                new TollPoint { Channel = new Channel("localhost:50051", /*channelCredentials*/ ChannelCredentials.Insecure), TollCode = "TOLL2" },
+                                new TollPoint { Channel = new Channel("localhost:50052", /*channelCredentials*/ ChannelCredentials.Insecure), TollCode = "TOLL1" }
+                            };
             clients = new Dictionary<string, Client>();
 
             foreach (var channel in channels)
@@ -39,26 +39,30 @@ namespace TollOperatorClient
             
             Parallel.For(0, clients.Count, iterator =>
             {
-                bool retryServerConnection = true;
-                while (retryServerConnection)
+                //bool retryServerConnection = true;
+                while (true)//(retryServerConnection)
                 {
-                    if (GetServerConnection(channels[iterator].Channel))
-                        retryServerConnection = false;
                     var tollCode = channels[iterator].TollCode;
 
                     try
                     {
                         clients[tollCode].GetStream(clients[tollCode].clientCode, tollCode).Wait();
+                        //retryServerConnection = false;
                     }
                     catch (RpcException eX)
                     {
                         PrintRpcException(tollCode, eX);
-                        retryServerConnection = true;
+                        //retryServerConnection = true;
+                    }
+                    catch (AggregateException ex)
+                    {
+                        ex.Handle(e => { Console.WriteLine($"{tollCode}: " + e.Message); return true; });
+                        //retryServerConnection = false;
                     }
                     catch (Exception ex)
                     {
                         Console.WriteLine($"{tollCode}: " + ex.Message);
-                        retryServerConnection = true;
+                        //retryServerConnection = true;
                     }
                 }
             });
@@ -78,8 +82,8 @@ namespace TollOperatorClient
             //channel.ShutdownAsync().Wait();
             #endregion
 
-            Console.WriteLine("Press any key to exit...");
-            Console.ReadKey();
+            //Console.WriteLine("Press any key to exit...");
+            //Console.ReadKey();
         }
 
         private static void PrintRpcException(string tollId, RpcException eX)
@@ -90,11 +94,6 @@ namespace TollOperatorClient
                 Console.WriteLine($"Stream from server [{tollId}] lost...");
             else
                 Console.WriteLine(eX.Message);
-        }
-
-        static bool GetServerConnection(Channel channel)
-        {
-            return (channel.State == ChannelState.Ready);
         }
     }
 

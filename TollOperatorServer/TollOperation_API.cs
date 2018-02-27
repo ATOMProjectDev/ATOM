@@ -83,7 +83,7 @@ namespace TollOperatorServer
                     }
                     catch
                     {
-                        // catch for exceptions thrown when connection with client is lost!
+                        // catch exceptions thrown when connection with client is lost!
                     }
                 }
             }
