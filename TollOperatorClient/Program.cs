@@ -22,7 +22,6 @@ namespace TollOperatorClient
             channels = new List<TollPoint>
                             {
                                 //var channelCredentials = new SslCredentials(System.IO.File.ReadAllText("roots.pem"));  // Load a custom roots file.
-
                                 // TODO: get channel ips, ports and ids from a config file/database
                                 new TollPoint { Channel = new Channel("localhost:50051", /*channelCredentials*/ ChannelCredentials.Insecure), TollCode = "TOLL2" },
                                 new TollPoint { Channel = new Channel("localhost:50052", /*channelCredentials*/ ChannelCredentials.Insecure), TollCode = "TOLL1" }
@@ -32,40 +31,40 @@ namespace TollOperatorClient
             foreach (var channel in channels)
             {
                 // create subscription with an id; generate id with each execution
-                // TODO: get client subscription id from a config file/database
-                Subscription request = new Atom.Subscription { SubscriptionId = "FMPWH-" + new Random().Next(100, 999) };//"FMPWH-980" };//
+                // TODO: get client subscription id from a config file/database/...
+                Subscription request = new Atom.Subscription { SubscriptionId = "FMPWH-" + new Random().Next(100, 999) };
                 clients.Add(channel.TollCode, new Client(new TollAuditService.TollAuditServiceClient(channel.Channel), request));
+            }
+
+            foreach (var client in clients)
+            {
+                client.Value.Subscribe(client.Value.clientCode, client.Key);
             }
             
             Parallel.For(0, clients.Count, iterator =>
-            {
-                //bool retryServerConnection = true;
-                while (true)//(retryServerConnection)
                 {
-                    var tollCode = channels[iterator].TollCode;
+                    //bool retryServerConnection = true;
+                    while (true)//(retryServerConnection)
+                    {
+                        var tollCode = channels[iterator].TollCode;
 
-                    try
-                    {
-                        clients[tollCode].GetStream(clients[tollCode].clientCode, tollCode).Wait();
-                        //retryServerConnection = false;
+                        try
+                        {
+                            clients[tollCode].GetStream(clients[tollCode].clientCode, tollCode).Wait();
+                            //retryServerConnection = false;
+                        }
+                        catch (AggregateException ex)
+                        {
+                            ex.Handle(e => { Console.WriteLine($"{tollCode}: " + e.Message); return true; });
+                            //retryServerConnection = true;
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"{tollCode}: " + ex.Message);
+                            //retryServerConnection = true;
+                        }
                     }
-                    catch (RpcException eX)
-                    {
-                        PrintRpcException(tollCode, eX);
-                        //retryServerConnection = true;
-                    }
-                    catch (AggregateException ex)
-                    {
-                        ex.Handle(e => { Console.WriteLine($"{tollCode}: " + e.Message); return true; });
-                        //retryServerConnection = false;
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine($"{tollCode}: " + ex.Message);
-                        //retryServerConnection = true;
-                    }
-                }
-            });
+                });
 
             // unsubscribe from each server in a parallel fashion
             //Parallel.ForEach(clients, (client) => { client.Value.Unsubscribe(request); });
@@ -89,9 +88,9 @@ namespace TollOperatorClient
         private static void PrintRpcException(string tollId, RpcException eX)
         {
             if (eX.Status.StatusCode == StatusCode.Unavailable) //eX.Status.Detail == "Connect Failed")
-                Console.WriteLine($"No connection to server [{tollId}]");
+                Console.WriteLine($"[{tollId}] No connection to server ");
             else if (eX.Status.StatusCode == StatusCode.Unknown) //eX.Status.Detail == "Stream removed")
-                Console.WriteLine($"Stream from server [{tollId}] lost...");
+                Console.WriteLine($"[{tollId}] Stream from server lost...");
             else
                 Console.WriteLine(eX.Message);
         }

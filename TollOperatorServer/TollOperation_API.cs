@@ -67,23 +67,27 @@ namespace TollOperatorServer
 
         public override async Task GetLiveStream(Subscription request, IServerStreamWriter<TollVehicleInfo> responseStream, ServerCallContext context)
         {
-            //if (_subscribedClients.ContainsKey(request.SubscriptionId))
+            if (_subscribedClients.ContainsKey(request.SubscriptionId))
+            {
                 _subscribedClients[request.SubscriptionId] = responseStream;
 
-            while (_subscribedClients.ContainsKey(request.SubscriptionId))
-            {
-                // Wait on BufferBlock to receive asynchronously from target source
-                var vehicleInfo = await _buffer.ReceiveAsync();
-                
-                foreach (var serverStreamWriter in _subscribedClients.Values)
+                while (_subscribedClients.ContainsKey(request.SubscriptionId))
                 {
-                    try
+                    //_subscribedClients[request.SubscriptionId] = responseStream;
+
+                    // Wait on BufferBlock to receive asynchronously from target source
+                    var vehicleInfo = await _buffer.ReceiveAsync();
+
+                    foreach (var serverStreamWriter in _subscribedClients.Values)
                     {
-                        await serverStreamWriter.WriteAsync(vehicleInfo);
-                    }
-                    catch
-                    {
-                        // catch exceptions thrown when connection with client is lost!
+                        try
+                        {
+                            await serverStreamWriter.WriteAsync(vehicleInfo);
+                        }
+                        catch
+                        {
+                            // catch exceptions thrown when connection with client is lost or bcos of other unforseen errors during server push
+                        }
                     }
                 }
             }

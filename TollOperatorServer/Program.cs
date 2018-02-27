@@ -29,6 +29,10 @@ namespace TollOperatorServer
                 tollAPI.Publish(result.Result[0]);
                 Console.WriteLine("SERVER [TOLL1]: " + result.Result[0]);
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
             finally
             {
                 // randomly change timer interval for vehicle generation
