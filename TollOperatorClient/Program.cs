@@ -19,13 +19,71 @@ namespace TollOperatorClient
         
         static void Main(string[] args)
         {
-            channels = new List<TollPoint>
-                            {
-                                //var channelCredentials = new SslCredentials(System.IO.File.ReadAllText("roots.pem"));  // Load a custom roots file.
-                                // TODO: get channel ips, ports and ids from a config file/database
-                                new TollPoint { Channel = new Channel("localhost:50051", /*channelCredentials*/ ChannelCredentials.Insecure), TollCode = "TOLL2" },
-                                new TollPoint { Channel = new Channel("localhost:50052", /*channelCredentials*/ ChannelCredentials.Insecure), TollCode = "TOLL1" }
-                            };
+            CreateChannels();
+            CreateClients();
+            MakeSubscritionToServers();
+            GetEventsFromServersAsync();
+
+            #region unsubscribe from servers
+            // unsubscribe from each server in a parallel fashion
+            //Parallel.ForEach(clients, (client) => { client.Value.Unsubscribe(request); });
+            #endregion
+
+            #region shutdown connection to servers
+            // shutdown connection to each server subscribed to in a parallel manner
+            //Parallel.ForEach(channels, (channel) => { channel.Channel.ShutdownAsync().Wait(); });
+            #endregion
+
+            #region old code
+            //Channel channel = new Channel("127.0.0.1:50052", ChannelCredentials.Insecure);
+            //var client = new Client(new Atom.TollAuditService.TollAuditServiceClient(channel));
+            // create subscription with an id; generate id with each execution
+            //Atom.Subscription request = new Atom.Subscription { SubscriptionId = "FMPWH-" + new Random().Next(100, 999) };
+            //client.GetStream(request).Wait(); 
+            //channel.ShutdownAsync().Wait();
+            //Console.WriteLine("Press any key to exit...");
+            //Console.ReadKey();
+            #endregion
+        }
+
+        private static void GetEventsFromServersAsync()
+        {
+            Parallel.For(0, clients.Count, iterator =>
+            {
+                //bool retryServerConnection = true;
+                while (true)//(retryServerConnection)
+                {
+                    var tollCode = channels[iterator].TollCode;
+
+                    try
+                    {
+                        clients[tollCode].GetStream(clients[tollCode].clientCode, tollCode).Wait();
+                        //retryServerConnection = false;
+                    }
+                    catch (AggregateException ex)
+                    {
+                        ex.Handle(e => { Console.WriteLine($"{tollCode}: " + e.Message); return true; });
+                        //retryServerConnection = true;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"{tollCode}: " + ex.Message);
+                        //retryServerConnection = true;
+                    }
+                }
+            });
+        }
+
+        private static void MakeSubscritionToServers()
+        {
+            foreach (var client in clients)
+            {
+                client.Value.Subscribe(client.Value.clientCode, client.Key);
+            }
+        }
+
+        private static void CreateClients()
+        {
             clients = new Dictionary<string, Client>();
 
             foreach (var channel in channels)
@@ -35,54 +93,17 @@ namespace TollOperatorClient
                 Subscription request = new Atom.Subscription { SubscriptionId = "FMPWH-" + new Random().Next(100, 999) };
                 clients.Add(channel.TollCode, new Client(new TollAuditService.TollAuditServiceClient(channel.Channel), request));
             }
+        }
 
-            foreach (var client in clients)
-            {
-                client.Value.Subscribe(client.Value.clientCode, client.Key);
-            }
-            
-            Parallel.For(0, clients.Count, iterator =>
-                {
-                    //bool retryServerConnection = true;
-                    while (true)//(retryServerConnection)
-                    {
-                        var tollCode = channels[iterator].TollCode;
-
-                        try
-                        {
-                            clients[tollCode].GetStream(clients[tollCode].clientCode, tollCode).Wait();
-                            //retryServerConnection = false;
-                        }
-                        catch (AggregateException ex)
-                        {
-                            ex.Handle(e => { Console.WriteLine($"{tollCode}: " + e.Message); return true; });
-                            //retryServerConnection = true;
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine($"{tollCode}: " + ex.Message);
-                            //retryServerConnection = true;
-                        }
-                    }
-                });
-
-            // unsubscribe from each server in a parallel fashion
-            //Parallel.ForEach(clients, (client) => { client.Value.Unsubscribe(request); });
-
-            // shutdown connection to each server subscribed to in a parallel manner
-            //Parallel.ForEach(channels, (channel) => { channel.Channel.ShutdownAsync().Wait(); });
-
-            #region old
-            //Channel channel = new Channel("127.0.0.1:50052", ChannelCredentials.Insecure);
-            //var client = new Client(new Atom.TollAuditService.TollAuditServiceClient(channel));
-            // create subscription with an id; generate id with each execution
-            //Atom.Subscription request = new Atom.Subscription { SubscriptionId = "FMPWH-" + new Random().Next(100, 999) };
-            //client.GetStream(request).Wait(); 
-            //channel.ShutdownAsync().Wait();
-            #endregion
-
-            //Console.WriteLine("Press any key to exit...");
-            //Console.ReadKey();
+        private static void CreateChannels()
+        {
+            channels = new List<TollPoint>
+                            {
+                                //var channelCredentials = new SslCredentials(System.IO.File.ReadAllText("roots.pem"));  // Load a custom roots file.
+                                // TODO: get channel ips, ports and ids from a config file/database
+                                new TollPoint { Channel = new Channel("localhost:50051", /*channelCredentials*/ ChannelCredentials.Insecure), TollCode = "TOLL2" },
+                                new TollPoint { Channel = new Channel("localhost:50052", /*channelCredentials*/ ChannelCredentials.Insecure), TollCode = "TOLL1" }
+                            };
         }
 
         private static void PrintRpcException(string tollId, RpcException eX)
@@ -118,7 +139,7 @@ namespace TollOperatorClient
                 while (await responseStream.MoveNext())
                 {
                     var info = responseStream.Current; // get current event
-                    Console.WriteLine($"CLIENT [{tollId}]: " + info);
+                    Console.WriteLine($"CLIENT [{subscription.SubscriptionId}@{tollId}]: " + info);
                 }
             }
         }       

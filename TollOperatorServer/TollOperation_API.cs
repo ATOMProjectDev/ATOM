@@ -67,7 +67,7 @@ namespace TollOperatorServer
 
         public override async Task GetLiveStream(Subscription request, IServerStreamWriter<TollVehicleInfo> responseStream, ServerCallContext context)
         {
-            if (_subscribedClients.ContainsKey(request.SubscriptionId))
+            ////if (_subscribedClients.ContainsKey(request.SubscriptionId))
             {
                 _subscribedClients[request.SubscriptionId] = responseStream;
 
